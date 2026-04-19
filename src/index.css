@@ -1,7 +1,17 @@
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #f5f7fb;
-  background: #0b0f14;
+  --bg: #09131b;
+  --panel: #102231;
+  --surface: #152b3b;
+  --surface-2: #183143;
+  --line: #2b4a60;
+  --line-strong: #3c6784;
+  --text: #f2f6f9;
+  --text-soft: #b4c3d0;
+  --accent: #1ec78d;
+  --accent-soft: #1ca579;
+  font-family: 'Sora', 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: var(--bg);
   line-height: 1.4;
   font-weight: 400;
 }
@@ -20,8 +30,22 @@ body,
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(50, 78, 107, 0.24), transparent 35%),
-    linear-gradient(180deg, #0a0e13 0%, #0b1118 100%);
+    radial-gradient(circle at 50% 0%, rgba(60, 103, 132, 0.22), transparent 36%),
+    linear-gradient(180deg, #071018 0%, #09141d 42%, #071018 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 20% 10%, rgba(78, 130, 156, 0.12), transparent 30%),
+    radial-gradient(circle at 85% 0%, rgba(30, 199, 141, 0.08), transparent 24%);
+  background-size: 54px 54px, 54px 54px, auto, auto;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent 88%);
 }
 
 button,
@@ -33,15 +57,29 @@ textarea {
 
 .app-shell {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   min-height: 100vh;
+  gap: 16px;
+  padding: 16px;
 }
 
 .scenario-panel {
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 28px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, #122639 0%, #102231 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.scenario-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
 }
 
 .scenario-panel h2 {
@@ -51,15 +89,15 @@ textarea {
 
 .scenario-list {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .scenario-item {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  color: #edf2ff;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
   padding: 14px;
-  border-radius: 16px;
+  border-radius: 14px;
   text-align: left;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
@@ -67,12 +105,12 @@ textarea {
 
 .scenario-item:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: var(--line-strong);
 }
 
 .scenario-item.active {
-  border-color: rgba(97, 171, 255, 0.8);
-  background: rgba(97, 171, 255, 0.1);
+  border-color: var(--accent);
+  background: #163648;
 }
 
 .scenario-name {
@@ -83,49 +121,165 @@ textarea {
 
 .scenario-description {
   display: block;
-  color: rgba(232, 239, 255, 0.72);
+  color: var(--text-soft);
   font-size: 13px;
 }
 
 .main-panel {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 24px;
   padding: 28px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(72, 121, 145, 0.14), transparent 34%),
+    linear-gradient(180deg, #0d1c28 0%, #09121a 100%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.26);
+  overflow: hidden;
+}
+
+.main-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
+.main-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .topbar {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.52);
+  color: var(--text-soft);
   margin: 0 0 8px;
 }
 
 .topbar h1 {
   margin: 0;
-  font-size: 32px;
+  font-size: 34px;
   letter-spacing: -0.03em;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--text-soft);
+}
+
+.topbar-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.view-toggle {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(8, 16, 24, 0.42);
+  backdrop-filter: blur(8px);
+}
+
+.control-chip {
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.control-chip.active {
+  background: #1b3d50;
+  border-color: rgba(30, 199, 141, 0.6);
+}
+
+.timeline-controls {
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.timeline-label {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-soft);
+}
+
+.timeline-value {
+  margin: 4px 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.timeline-slider {
+  width: 100%;
+  margin: 4px 0 10px;
+  accent-color: var(--accent);
+}
+
+.timeline-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-soft);
 }
 
 .confidence-frame {
   position: relative;
-  border-radius: 30px;
+  border-radius: 28px;
   padding: var(--frame-thickness, 12px);
-  background: rgba(255, 255, 255, 0.03);
+  background: #0f2331;
   overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 22px 45px rgba(0, 0, 0, 0.22);
 }
 
 .confidence-frame::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 30px;
+  border-radius: 28px;
   border: var(--frame-thickness, 12px) solid var(--frame-color, #21c58e);
   opacity: 0.9;
   pointer-events: none;
   animation: confidencePulse var(--frame-pulse-duration, 3s) ease-in-out infinite;
+}
+
+.confidence-frame::after {
+  content: '';
+  position: absolute;
+  inset: calc(var(--frame-thickness, 12px) + 2px);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
 }
 
 @keyframes confidencePulse {
@@ -140,12 +294,18 @@ textarea {
 
 .device-surface {
   position: relative;
-  min-height: 760px;
+  min-height: 700px;
   border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
-    #0f151d;
+  background: linear-gradient(180deg, #102737 0%, #0d1d28 100%);
   overflow: hidden;
+}
+
+.device-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 34%);
+  pointer-events: none;
 }
 
 .device-content {
@@ -182,7 +342,7 @@ textarea {
 
 .speed-unit {
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--text-soft);
   padding-bottom: 10px;
 }
 
@@ -198,17 +358,17 @@ textarea {
 }
 
 .status-banner.reliable {
-  background: rgba(33, 197, 142, 0.12);
+  background: rgba(33, 197, 142, 0.16);
   color: #68e0b6;
 }
 
 .status-banner.uncertain {
-  background: rgba(255, 182, 72, 0.12);
+  background: rgba(255, 182, 72, 0.18);
   color: #ffc86f;
 }
 
 .status-banner.critical {
-  background: rgba(255, 93, 93, 0.12);
+  background: rgba(255, 93, 93, 0.18);
   color: #ff8c8c;
 }
 
@@ -218,15 +378,41 @@ textarea {
   border-radius: 28px;
   overflow: hidden;
   background:
-    radial-gradient(circle at center, rgba(75, 127, 171, 0.16), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+    radial-gradient(circle at 50% 15%, rgba(89, 140, 164, 0.18), transparent 32%),
+    #173042;
+  border: 1px solid rgba(120, 168, 193, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 18px 40px rgba(0, 0, 0, 0.2);
 }
 
-.road {
+.scene-horizon {
   position: absolute;
-  inset: 30px 23% 0 23%;
-  background: linear-gradient(180deg, #2a313d 0%, #171d27 100%);
+  inset: 0 0 auto;
+  height: 130px;
+  background: linear-gradient(180deg, rgba(110, 173, 205, 0.14), rgba(23, 48, 66, 0));
+}
+
+.scene-roadflow {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 17px,
+      rgba(255, 255, 255, 0.05) 17px,
+      rgba(255, 255, 255, 0.05) 19px
+    );
+  opacity: calc(0.16 + var(--scene-tension, 30) / 240);
+  animation: roadFlow var(--flow-duration, 4.5s) linear infinite;
+  transform: translateY(-20px);
+}
+
+.scene-road {
+  position: absolute;
+  inset: 30px calc(23% + var(--curve-offset, 0px)) 0 calc(23% - var(--curve-offset, 0px));
+  background: linear-gradient(180deg, #253341 0%, #18222e 100%);
   clip-path: polygon(34% 0%, 66% 0%, 100% 100%, 0% 100%);
   opacity: 0.95;
 }
@@ -237,9 +423,11 @@ textarea {
   top: 56px;
   width: 8px;
   height: 270px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.22));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.3));
   border-radius: 999px;
   transform-origin: top center;
+  transition: transform 380ms ease;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.18);
 }
 
 .lane.straight {
@@ -259,13 +447,100 @@ textarea {
   left: 50%;
   bottom: 44px;
   transform: translateX(-50%);
-  background: #dceaff;
+  background: #d9ecff;
   color: #081018;
   font-weight: 800;
   font-size: 12px;
   letter-spacing: 0.08em;
   border-radius: 999px;
   padding: 10px 14px;
+}
+
+.scene-lead-vehicle {
+  position: absolute;
+  left: 50%;
+  top: var(--lead-distance, 52%);
+  width: 84px;
+  height: 48px;
+  transform: translateX(-50%) rotate(var(--lead-drift, 0deg));
+  display: grid;
+  place-items: center;
+  transition: top 380ms ease, transform 380ms ease;
+}
+
+.lead-car-body {
+  width: 100%;
+  height: 28px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f7fbff 0%, #d8e7f1 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lead-car-lights {
+  position: absolute;
+  inset: auto 9px 7px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 94, 94, 0.85), rgba(255, 94, 94, 0.1));
+  opacity: 0.95;
+}
+
+.scene-guidance {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 148px;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(30, 199, 141, 0), rgba(30, 199, 141, 0.92), rgba(30, 199, 141, 0));
+  opacity: calc(0.2 + var(--steering-load, 0) / 220);
+}
+
+.scene-car {
+  position: absolute;
+  left: 50%;
+  bottom: 42px;
+  width: 50px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #dceaff 0%, #8db3cf 100%);
+  box-shadow: 0 0 0 6px rgba(220, 234, 255, 0.08);
+}
+
+.scene-caption {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(8, 16, 24, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.scene-caption span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(242, 246, 249, 0.7);
+}
+
+.scene-caption strong {
+  font-size: 20px;
+  letter-spacing: -0.04em;
+}
+
+@keyframes roadFlow {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .metrics-grid {
@@ -278,15 +553,15 @@ textarea {
 .dashboard-card {
   border-radius: 20px;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
 }
 
 .dashboard-card-label {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.56);
+  color: var(--text-soft);
   margin-bottom: 8px;
 }
 
@@ -299,13 +574,13 @@ textarea {
 
 .dashboard-card-helper {
   font-size: 13px;
-  color: rgba(236, 243, 255, 0.68);
+  color: var(--text-soft);
 }
 
 .edge {
   position: absolute;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .edge-top,
@@ -340,6 +615,7 @@ textarea {
 
 .edge-fill {
   background: linear-gradient(180deg, rgba(255, 196, 93, 0.7), rgba(255, 93, 93, 0.95));
+  transition: width 440ms ease, height 440ms ease;
 }
 
 .edge-fill.vertical {
@@ -358,14 +634,575 @@ textarea {
   height: 100%;
 }
 
+.support-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+}
+
+.driver-experience {
+  display: grid;
+  gap: 16px;
+}
+
+.driver-experience-header {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.driver-experience h2 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.driver-experience-copy {
+  margin: 8px 0 0;
+  color: var(--text-soft);
+  max-width: 60ch;
+}
+
+.driver-experience-summary {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.driver-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(10, 18, 27, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.driver-chip-primary {
+  color: #bffbe5;
+  border-color: rgba(30, 199, 141, 0.45);
+}
+
+.driver-stage {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  min-height: 760px;
+  padding: 18px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(7, 14, 20, 0.9), rgba(7, 14, 20, 0.72));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.driver-windshield {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 32px 32px 28px 28px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(5, 10, 14, 0.94), rgba(9, 14, 19, 0.82));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 20px 40px rgba(0, 0, 0, 0.26);
+}
+
+.driver-windshield::before,
+.driver-windshield::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 96px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}
+
+.driver-windshield::before {
+  left: 0;
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
+}
+
+.driver-windshield::after {
+  right: 0;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.driver-glass-curve {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 9%;
+  border-radius: 999px;
+  opacity: 0.6;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 45%);
+}
+
+.driver-glass-curve--left {
+  left: 1.2%;
+  transform: skewY(-10deg);
+}
+
+.driver-glass-curve--right {
+  right: 1.2%;
+  transform: skewY(10deg);
+}
+
+.driver-dashboard {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  display: grid;
+  gap: 2px;
+  min-width: 150px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: rgba(10, 16, 21, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(8px);
+}
+
+.driver-dashboard--left {
+  left: 22px;
+}
+
+.driver-dashboard--right {
+  right: 22px;
+  max-width: 280px;
+}
+
+.driver-dashboard span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(242, 246, 249, 0.62);
+}
+
+.driver-dashboard strong {
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: -0.05em;
+}
+
+.driver-dashboard small {
+  font-size: 12px;
+  color: rgba(242, 246, 249, 0.72);
+}
+
+.driver-map-canvas {
+  position: relative;
+  z-index: 1;
+  height: 540px;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(234, 239, 243, 0.96) 0%, rgba(220, 228, 234, 0.94) 50%, rgba(9, 14, 20, 0.98) 51%, rgba(8, 12, 18, 1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.driver-windshield-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 14px solid rgba(8, 12, 18, 0.8);
+  border-top-width: 18px;
+  border-bottom-width: 72px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 20px 24px rgba(255, 255, 255, 0.04);
+}
+
+.driver-map-haze {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.26), transparent 22%),
+    radial-gradient(circle at 50% 58%, rgba(0, 0, 0, 0.12), transparent 38%);
+  opacity: 0.58;
+}
+
+.driver-road-horizon {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 42%;
+  background:
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.92), transparent 8%),
+    linear-gradient(180deg, rgba(244, 248, 250, 0.98), rgba(225, 232, 237, 0.9));
+}
+
+.driver-road-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.driver-road-body,
+.driver-road-shoulders,
+.driver-road-lanes,
+.driver-road-route {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: top center;
+}
+
+.driver-road-body {
+  bottom: -6%;
+  width: min(58vw, 440px);
+  height: 112%;
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0% 100%);
+  background: linear-gradient(180deg, #2c333c 0%, #171d26 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.driver-road-body[data-direction='left'] {
+  transform: translateX(-50%) rotate(-7deg);
+}
+
+.driver-road-body[data-direction='right'] {
+  transform: translateX(-50%) rotate(7deg);
+}
+
+.driver-road-shoulders {
+  bottom: -4%;
+  width: min(67vw, 520px);
+  height: 114%;
+  clip-path: polygon(39% 0, 61% 0, 100% 100%, 0% 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.12));
+  opacity: 0.9;
+}
+
+.driver-road-shoulders[data-direction='left'] {
+  transform: translateX(-50%) rotate(-7deg);
+}
+
+.driver-road-shoulders[data-direction='right'] {
+  transform: translateX(-50%) rotate(7deg);
+}
+
+.driver-road-lanes {
+  bottom: 0;
+  width: min(58vw, 440px);
+  height: 112%;
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0% 100%);
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 28px,
+      rgba(255, 255, 255, 0.86) 28px,
+      rgba(255, 255, 255, 0.86) 44px,
+      transparent 44px,
+      transparent 70px
+    );
+  opacity: 0.68;
+}
+
+.driver-road-lanes[data-direction='left'] {
+  transform: translateX(-50%) rotate(-7deg);
+}
+
+.driver-road-lanes[data-direction='right'] {
+  transform: translateX(-50%) rotate(7deg);
+}
+
+.driver-road-route {
+  bottom: 0;
+  width: min(20vw, 160px);
+  height: 112%;
+  clip-path: polygon(36% 0, 64% 0, 76% 100%, 24% 100%);
+  background: linear-gradient(180deg, rgba(35, 115, 248, 0.96) 0%, rgba(22, 98, 230, 0.98) 100%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 26px rgba(35, 115, 248, 0.22);
+}
+
+.driver-road-route::before,
+.driver-road-route::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0 14px, transparent 14px 28px);
+  border-radius: 999px;
+}
+
+.driver-road-route::after {
+  width: 2px;
+  left: 58%;
+  opacity: 0.6;
+}
+
+.driver-road-route[data-direction='left'] {
+  transform: translateX(-50%) rotate(-8deg);
+}
+
+.driver-road-route[data-direction='right'] {
+  transform: translateX(-50%) rotate(8deg);
+}
+
+.driver-road-vehicle {
+  position: absolute;
+  left: 50%;
+  bottom: 88px;
+  width: 84px;
+  height: 40px;
+  transform: translateX(-50%);
+  border-radius: 18px 18px 16px 16px;
+  background: linear-gradient(180deg, #f3f7fb 0%, #cfd9e1 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.14);
+}
+
+.driver-road-vehicle::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 8px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 94, 94, 0.85), rgba(255, 94, 94, 0.08));
+}
+
+.driver-rearview-mirror {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 96px;
+  height: 28px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(32, 39, 47, 0.9), rgba(18, 23, 29, 0.92));
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.driver-rearview-mirror span {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: 18px;
+  background: rgba(31, 38, 46, 0.8);
+  transform: translateX(-50%);
+}
+
+.driver-dashboard-lip {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 32px;
+  height: 72px;
+  border-radius: 24px 24px 30px 30px;
+  background: linear-gradient(180deg, rgba(15, 21, 28, 0.94), rgba(7, 12, 18, 0.98));
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.driver-steering-wheel {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  width: 170px;
+  height: 170px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 16px solid rgba(15, 22, 30, 0.96);
+  background:
+    radial-gradient(circle at center, rgba(26, 36, 47, 0.96) 0 30%, transparent 31%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01));
+  box-shadow:
+    inset 0 0 0 12px rgba(255, 255, 255, 0.02),
+    0 16px 28px rgba(0, 0, 0, 0.22);
+}
+
+.driver-steering-wheel::before,
+.driver-steering-wheel::after,
+.driver-steering-wheel span {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgba(31, 38, 46, 0.96);
+  transform: translate(-50%, -50%);
+}
+
+.driver-steering-wheel::before {
+  width: 18px;
+  height: 80px;
+  border-radius: 999px;
+}
+
+.driver-steering-wheel::after {
+  width: 80px;
+  height: 18px;
+  border-radius: 999px;
+}
+
+.driver-steering-wheel span {
+  width: 12px;
+  height: 64px;
+  border-radius: 999px;
+}
+
+.driver-steering-wheel span:first-of-type {
+  transform: translate(-50%, -50%) rotate(60deg);
+}
+
+.driver-steering-wheel span:nth-of-type(2) {
+  transform: translate(-50%, -50%) rotate(-60deg);
+}
+
+.driver-steering-wheel span:nth-of-type(3) {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.driver-map-hud {
+  position: absolute;
+  top: 18px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #314355;
+  border: 1px solid rgba(111, 127, 141, 0.12);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.driver-map-hud--left {
+  left: 18px;
+}
+
+.driver-map-hud--right {
+  right: 18px;
+}
+
+.driver-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 30%);
+}
+
+.driver-status-rail {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 2px;
+}
+
+.driver-status-item {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(10, 18, 27, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.driver-status-item span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.driver-status-item strong {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.driver-status-item--wide {
+  grid-column: span 1;
+}
+
+.info-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.info-panel h2 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.comparison-card {
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.comparison-card.baseline {
+  background: #182d3d;
+}
+
+.comparison-card.proposed {
+  background: #133a41;
+}
+
+.comparison-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.comparison-card p {
+  margin: 0;
+}
+
+.rationale-list {
+  display: grid;
+  gap: 12px;
+}
+
+.rationale-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.rationale-list article p {
+  margin-top: 0;
+  color: var(--text-soft);
+}
+
 @media (max-width: 1200px) {
   .app-shell {
     grid-template-columns: 1fr;
   }
 
   .scenario-panel {
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid var(--line);
   }
 
   .hero-area {
@@ -375,9 +1212,18 @@ textarea {
   .metrics-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 720px) {
+  .app-shell {
+    padding: 12px;
+    gap: 12px;
+  }
+
   .main-panel {
     padding: 18px;
   }
@@ -392,5 +1238,54 @@ textarea {
 
   .metrics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+  }
+
+  .topbar-controls {
+    width: 100%;
+  }
+
+  .view-toggle {
+    width: 100%;
+  }
+
+  .control-chip {
+    flex: 1;
+  }
+
+  .driver-stage {
+    min-height: 640px;
+  }
+
+  .driver-map-canvas {
+    height: 430px;
+  }
+
+  .driver-status-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scene-caption {
+    top: auto;
+    bottom: 16px;
+  }
+
+  .driver-dashboard {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    max-width: none;
+  }
+
+  .driver-windshield {
+    padding-top: 88px;
   }
 }

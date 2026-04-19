@@ -22,6 +22,7 @@ export function ScenarioPanel({
               key={scenario.id}
               type="button"
               className={`scenario-item ${active ? 'active' : ''}`}
+              aria-pressed={active}
               onClick={() => onSelectScenario(scenario.id)}
             >
               <span className="scenario-name">{scenario.name}</span>
